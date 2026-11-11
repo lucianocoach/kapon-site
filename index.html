@@ -1,469 +1,404 @@
 <!doctype html>
 <html lang="pt-BR">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Kapon — encontre o que você precisa perto de você</title>
-<meta name="description" content="O Kapon mostra no mapa os produtos que estão sendo vendidos perto de você. Para quem compra e para quem vende." />
-<!--
-  ===========================================================
-  KAPON — SITE INSTITUCIONAL (arquivo único, sem dependências)
-  Basta abrir este arquivo em qualquer navegador.
-  Tudo está aqui: HTML + CSS + um script mínimo de 8 linhas.
-  Os guias de marca e a explicação de cada seção estão em ENTREGA.md.
-  ===========================================================
--->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kapon — descubra o que há de bom perto de você</title>
+<meta name="description" content="Kapon, em Xipaya, quer dizer perto. Restaurantes, pousadas, casas de temporada, passeios e comércio da sua cidade em um mapa. Comece pelo Prado, na Bahia.">
+<meta name="theme-color" content="#D81B20">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Kapon — descubra o que há de bom perto de você">
+<meta property="og:description" content="Kapon, em Xipaya, quer dizer perto. Restaurantes, pousadas, passeios e comércio da sua cidade em um mapa.">
+<meta property="og:image" content="https://www.kapon.com.br/images/og.jpg">
+<meta property="og:url" content="https://www.kapon.com.br/">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
 <style>
-/* ---------- 1. TOKENS (mesmos valores do projeto em React) ---------- */
+/* Cores do app: vermelho do logo e fundo claro */
 :root{
-  --bg:#0a0a0b;
-  --fg:#edeae3;
-  --muted:#a3a09a;
-  --primary:#ed1c24;
-  --line:rgba(255,255,255,.10);
-  --card:#0f0f11;
-  --sand:#f7f4f0;
-  --ink:#12100f;
+  --red:#D81B20;
+  --red-dark:#B3151A;
+  --red-soft:#FBE4E4;
+  --bg:#F8F7F8;
+  --card:#FFFFFF;
+  --ink:#1C1B1C;
+  --muted:#5F5C60;
+  --line:rgba(28,27,28,.10);
   --display:"Bricolage Grotesque",system-ui,sans-serif;
   --body:"Inter",system-ui,sans-serif;
-  --max:1152px;
-  --radius:1rem;
+  --max:1100px;
 }
 *,*::before,*::after{box-sizing:border-box}
-html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
-body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--body);font-size:18px;line-height:1.6}
+html{overflow-x:clip;scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+body{margin:0;overflow-x:clip;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.6}
 img{max-width:100%;display:block}
 a{color:inherit}
-::selection{background:var(--primary);color:#fff}
-.wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
-.eyebrow{margin:0 0 20px;font-size:11px;letter-spacing:.22em;text-transform:uppercase;font-weight:500;color:var(--muted)}
-h1,h2,h3{margin:0;font-family:var(--display);font-weight:800;letter-spacing:-.04em}
 p{margin:0}
+h1,h2,h3{margin:0;font-family:var(--display);font-weight:800;letter-spacing:-.035em;line-height:1.05}
+::selection{background:var(--red);color:#fff}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+.eyebrow{margin-bottom:16px;font-size:12px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--red)}
+.h2{font-size:clamp(1.9rem,4vw,3rem);text-wrap:balance}
+.lead{margin-top:18px;max-width:36rem;color:var(--muted)}
+.section{padding:88px 0}
+@media(min-width:1024px){.section{padding:112px 0}}
 
-/* ---------- 2. BOTÕES ---------- */
-.btn{display:inline-flex;align-items:center;gap:12px;padding:16px 28px;border-radius:999px;font-size:15px;font-weight:500;text-decoration:none;border:1px solid transparent;transition:background .3s,color .3s,border-color .3s}
-.btn .arw{transition:transform .3s}
-.btn:hover .arw{transform:translate(2px,-2px)}
-.btn--primary{background:var(--primary);color:#fff}
-.btn--primary:hover{background:#d61920}
-.btn--ghost{border-color:rgba(255,255,255,.15);color:var(--fg)}
-.btn--ghost:hover{background:rgba(255,255,255,.05)}
-.btn--light{background:#fff;color:#0a0a0b}
-.btn--light:hover{background:rgba(255,255,255,.9)}
-.btn--dark{background:var(--ink);color:var(--sand)}
-.btn--dark:hover{background:#241f1c}
-.btn--sm{padding:10px 20px;font-size:13px;background:#fff;color:#0a0a0b}
-.btn--sm:hover{background:rgba(255,255,255,.9)}
+/* botões */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:15px 26px;border-radius:999px;border:2px solid transparent;font-size:16px;font-weight:600;text-decoration:none;transition:background .2s,color .2s,border-color .2s,transform .2s}
+.btn:hover{transform:translateY(-1px)}
+.btn--primary{background:var(--red);color:#fff}
+.btn--primary:hover{background:var(--red-dark)}
+.btn--outline{border-color:var(--red);color:var(--red);background:transparent}
+.btn--outline:hover{background:var(--red-soft)}
+.btn--white{background:#fff;color:var(--red)}
+.btn--white:hover{background:#fff4f4}
+.btn--sm{padding:10px 20px;font-size:14px}
+.btn svg{width:18px;height:18px;flex:none}
 
-/* ---------- 3. CABEÇALHO FIXO ---------- */
-.header{position:fixed;inset:0 0 auto;z-index:50;border-bottom:1px solid transparent;transition:background .4s,border-color .4s,backdrop-filter .4s}
-.header.is-scrolled{background:rgba(10,10,11,.8);backdrop-filter:blur(18px);border-bottom-color:var(--line)}
-.nav{max-width:var(--max);margin:0 auto;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px}
-.wordmark{font-family:var(--display);font-weight:800;font-size:1.5rem;letter-spacing:-.055em;text-decoration:none}
-.wordmark b{color:var(--primary);font-weight:800}
-.nav-links{display:none;gap:32px}
-.nav-links a{font-size:14px;color:var(--muted);text-decoration:none;transition:color .2s}
-.nav-links a:hover{color:var(--fg)}
-@media(min-width:1024px){.nav-links{display:flex}}
+/* cabeçalho */
+.header{position:fixed;inset:0 0 auto;z-index:50;transition:background .3s,box-shadow .3s}
+.header.is-scrolled{background:rgba(248,247,248,.88);backdrop-filter:blur(14px);box-shadow:0 1px 0 var(--line)}
+.nav{max-width:var(--max);margin:0 auto;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-family:var(--display);font-weight:800;font-size:1.55rem;letter-spacing:-.04em}
+.brand img{width:36px;height:36px;border-radius:9px}
+.nav-links{display:none;gap:28px}
+.nav-links a{font-size:14px;font-weight:500;color:var(--muted);text-decoration:none}
+.nav-links a:hover{color:var(--ink)}
+@media(min-width:900px){.nav-links{display:flex}}
 
-/* ---------- 4. HERO ---------- */
-.hero{position:relative;overflow:hidden;padding:112px 0 56px}
-.hero__glow{position:absolute;top:-208px;left:33%;width:900px;height:560px;transform:translateX(-50%);background:rgba(237,28,36,.25);filter:blur(150px);border-radius:999px;pointer-events:none}
-.hero__grid{position:relative;display:grid;gap:64px;align-items:center}
-@media(min-width:1024px){.hero{padding:160px 0 96px}.hero__grid{grid-template-columns:1.08fr .92fr;gap:40px}}
-.badge{display:inline-flex;align-items:center;gap:10px;margin-bottom:28px;padding:6px 16px;border:1px solid var(--line);background:rgba(255,255,255,.03);border-radius:999px;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
-.dot{width:6px;height:6px;border-radius:999px;background:var(--primary);flex:none}
-.hero h1{font-size:clamp(2.6rem,6.4vw,5rem);line-height:.94;letter-spacing:-.045em;text-wrap:balance}
-.hero h1 b{color:var(--primary);font-weight:800}
-.hero__sub{margin-top:28px;max-width:32rem;font-size:17px;line-height:1.6;color:var(--muted)}
-.hero__actions{margin-top:40px;display:flex;flex-wrap:wrap;gap:12px}
-.hero__note{margin-top:24px;font-size:13px;color:rgba(163,160,154,.7)}
-.hero__visual{position:relative;display:flex;justify-content:center}
-@media(min-width:1024px){.hero__visual{justify-content:flex-end}}
-.hero__bg{position:absolute;inset:0;z-index:-1;overflow:hidden;border-radius:3rem}
-.hero__bg img{width:100%;height:100%;object-fit:cover;opacity:.25}
-.hero__bg::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,var(--bg),rgba(10,10,11,.6),transparent)}
-.float-card{position:absolute;top:40px;left:-8px;display:none;padding:12px 16px;border:1px solid var(--line);border-radius:16px;background:rgba(10,10,11,.85);backdrop-filter:blur(12px)}
-.float-card span{display:block;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
-.float-card strong{font-family:var(--display);font-size:18px;font-weight:600}
-@media(min-width:640px){.float-card{display:block}}
+/* hero */
+.hero{position:relative;overflow:hidden;padding:112px 0 64px}
+.hero::before{content:"";position:absolute;right:-180px;top:-120px;width:640px;height:640px;border-radius:50%;background:var(--red-soft);z-index:-1}
+.hero__grid{display:grid;gap:56px;align-items:center}
+@media(min-width:960px){.hero{padding:150px 0 100px}.hero__grid{grid-template-columns:1.1fr .9fr}}
+.badge{display:inline-flex;align-items:center;gap:10px;margin-bottom:24px;padding:7px 16px;border-radius:999px;background:var(--red-soft);color:var(--red-dark);font-size:13px;font-weight:600}
+.badge b{font-weight:700}
+.hero h1{font-size:clamp(2.5rem,6vw,4.6rem);text-wrap:balance}
+.hero h1 em{font-style:normal;color:var(--red)}
+.hero__sub{margin-top:24px;max-width:32rem;font-size:18px;color:var(--muted)}
+.hero__actions{margin-top:32px;display:flex;flex-wrap:wrap;gap:12px}
+.hero__note{margin-top:18px;font-size:14px;color:var(--muted)}
 
-/* ---------- 5. CELULAR (mockup em CSS puro) ---------- */
-.phone{position:relative;width:272px;padding:3px;border-radius:46px;border:1px solid rgba(255,255,255,.12);background:linear-gradient(160deg,rgba(255,255,255,.16),rgba(255,255,255,.02));box-shadow:0 60px 140px -40px rgba(237,28,36,.55);transform:rotate(-4deg);transition:transform .7s}
+/* celular com a captura real do app */
+.hero__visual{display:flex;justify-content:center}
+.phone{width:min(300px,78vw);padding:10px;border-radius:44px;background:#17161a;box-shadow:0 40px 80px -30px rgba(216,27,32,.45),0 10px 30px rgba(0,0,0,.18);transform:rotate(3deg);transition:transform .5s}
 .phone:hover{transform:rotate(0)}
-@media(min-width:640px){.phone{width:300px}}
-.phone__body{padding:8px;border-radius:44px;background:#08090b}
-.phone__screen{position:relative;height:560px;overflow:hidden;border-radius:35px;background:#101216}
-.screen-top{position:absolute;inset:16px 16px auto;display:flex;align-items:center;gap:8px;padding:10px 16px;border:1px solid var(--line);border-radius:999px;background:rgba(11,13,16,.9);backdrop-filter:blur(8px)}
-.screen-top i{width:14px;height:14px;border-radius:999px;border:1.5px solid rgba(255,255,255,.4)}
-.screen-top span{font-size:11px;color:rgba(255,255,255,.45)}
-.map{position:absolute;inset:0;background-color:#0e1014;background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:44px 44px}
-.map::before{content:"";position:absolute;left:-10%;top:33%;width:130%;height:96px;transform:rotate(-14deg);background:#161a20}
-.map::after{content:"";position:absolute;right:-64px;top:64px;width:64px;height:70%;transform:rotate(8deg);background:#161a20}
-.pin{position:absolute;left:46%;top:36%;transform:translate(-50%,-50%);width:40px;height:40px;border-radius:999px;background:var(--primary);box-shadow:0 10px 30px rgba(237,28,36,.6);display:grid;place-items:center;color:#fff;font-size:12px}
-.pin::after{content:"";position:absolute;inset:0;border-radius:999px;background:rgba(237,28,36,.6);animation:ring 2.6s ease-out infinite;z-index:-1}
-.tag{position:absolute;display:flex;align-items:center;gap:6px;padding:6px 10px;border:1px solid var(--line);border-radius:999px;background:rgba(11,13,16,.9);font-size:9px;color:rgba(255,255,255,.7)}
-.tag i{width:6px;height:6px;border-radius:999px}
-.tag--1{left:20px;top:52%}
-.tag--2{right:16px;top:28%}
-.sheet{position:absolute;inset:auto 8px 8px;padding:16px;border:1px solid var(--line);border-radius:26px;background:rgba(11,13,16,.95);backdrop-filter:blur(12px)}
-.sheet__handle{width:32px;height:4px;margin:0 auto 12px;border-radius:999px;background:rgba(255,255,255,.2)}
-.sheet__label{margin-bottom:12px;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.4)}
-.row{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 12px;border-radius:16px;background:rgba(255,255,255,.04);margin-bottom:10px}
-.row p{font-size:11px;font-weight:500;color:rgba(255,255,255,.9)}
-.row small{display:block;font-size:9px;color:rgba(255,255,255,.35)}
-.row b{font-size:11px;color:#fff}
-.sheet__cta{margin-top:12px;display:flex;align-items:center;justify-content:center;gap:8px;padding:10px;border-radius:999px;background:var(--primary);color:#fff;font-size:11px;font-weight:500}
-@keyframes ring{0%{transform:scale(.6);opacity:.7}80%,100%{transform:scale(2.4);opacity:0}}
+.phone__screen{overflow:hidden;border-radius:34px;background:var(--bg)}
+.phone img{width:100%;height:auto}
 
-/* ---------- 6. FAIXA ROLANTE ---------- */
-.marquee{overflow:hidden;padding:16px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:rgba(255,255,255,.02);mask-image:linear-gradient(to right,transparent,#000 8%,#000 92%,transparent)}
-.marquee__track{display:flex;width:max-content;gap:32px;white-space:nowrap;animation:slide 38s linear infinite}
-.marquee__item{display:flex;align-items:center;gap:32px;font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
-.marquee__item b{width:4px;height:4px;border-radius:999px;background:rgba(237,28,36,.7)}
-@keyframes slide{to{transform:translateX(-50%)}}
+/* significado do nome */
+.meaning{background:var(--red);color:#fff;text-align:center}
+.meaning .wrap{padding-top:88px;padding-bottom:88px}
+.meaning .eyebrow{color:rgba(255,255,255,.8)}
+.meaning__word{font-family:var(--display);font-weight:800;font-size:clamp(3.4rem,11vw,8rem);letter-spacing:-.05em;line-height:.95}
+.meaning__def{margin-top:14px;font-size:clamp(1.1rem,2.6vw,1.6rem);font-weight:500}
+.meaning__def i{font-style:normal;opacity:.75}
+.meaning p.text{max-width:38rem;margin:28px auto 0;color:rgba(255,255,255,.88);font-size:17px}
 
-/* ---------- 7. SEÇÕES ---------- */
-.section{padding:96px 0}
-@media(min-width:1024px){.section{padding:128px 0}}
-.section--line{border-top:1px solid var(--line)}
-.h2{font-size:clamp(2rem,4.2vw,3.4rem);line-height:1.02;letter-spacing:-.04em;text-wrap:balance}
-.lead{margin-top:24px;max-width:34rem;font-size:16px;line-height:1.6;color:var(--muted)}
+/* categorias */
+.cats{margin-top:40px;display:grid;gap:14px;grid-template-columns:repeat(2,1fr)}
+@media(min-width:760px){.cats{grid-template-columns:repeat(3,1fr)}}
+.cat{display:flex;align-items:center;gap:14px;padding:18px;border-radius:18px;background:var(--card);box-shadow:0 1px 0 var(--line)}
+.cat__ico{display:grid;place-items:center;flex:none;width:44px;height:44px;border-radius:50%;background:var(--red);color:#fff}
+.cat__ico svg{width:22px;height:22px}
+.cat strong{display:block;font-size:15px}
+.cat small{color:var(--muted);font-size:13px}
 
 /* como funciona */
-.steps{margin-top:64px;display:grid;gap:1px;overflow:hidden;border:1px solid var(--line);border-radius:24px;background:var(--line)}
-@media(min-width:768px){.steps{grid-template-columns:repeat(3,1fr)}}
-.step{background:var(--bg);padding:40px;transition:background .5s}
-.step:hover{background:rgba(255,255,255,.04)}
-.step__num{font-family:var(--display);font-size:11px;letter-spacing:.2em;color:var(--primary)}
-.step h3{margin-top:24px;font-size:20px;font-weight:600;letter-spacing:-.02em}
-.step p{margin-top:12px;font-size:15px;line-height:1.6;color:var(--muted)}
-.steps__note{margin-top:32px;max-width:34rem;font-size:14px;color:rgba(163,160,154,.7)}
+.steps{margin-top:48px;display:grid;gap:18px}
+@media(min-width:820px){.steps{grid-template-columns:repeat(3,1fr)}}
+.step{padding:30px;border-radius:22px;background:var(--card);box-shadow:0 1px 0 var(--line)}
+.step__n{font-family:var(--display);font-weight:800;font-size:13px;letter-spacing:.14em;color:var(--red)}
+.step h3{margin-top:18px;font-size:21px;letter-spacing:-.02em}
+.step p{margin-top:10px;font-size:15px;color:var(--muted)}
 
-/* compradores */
-.split{display:grid;gap:56px;align-items:center}
-@media(min-width:1024px){.split{grid-template-columns:1fr 1fr;gap:80px}}
-.media{position:relative;overflow:hidden;border:1px solid var(--line);border-radius:32px}
-.media img{width:100%;aspect-ratio:4/5;object-fit:cover}
-.media::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(10,10,11,.7),transparent 60%)}
-.media__card{position:absolute;left:20px;right:20px;bottom:20px;z-index:2;display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border:1px solid var(--line);border-radius:16px;background:rgba(10,10,11,.8);backdrop-filter:blur(12px)}
-.media__card span{display:block;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
-.media__card strong{font-family:var(--display);font-size:15px;font-weight:500}
-.features{margin-top:40px;display:grid;gap:28px}
-@media(min-width:640px){.features{grid-template-columns:1fr 1fr;column-gap:32px}}
-.feature__icon{display:grid;place-items:center;width:36px;height:36px;margin-bottom:12px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.04);color:var(--primary);font-size:14px}
-.feature h3{font-size:15px;font-weight:600;letter-spacing:-.01em}
-.feature p{margin-top:6px;font-size:14px;line-height:1.6;color:var(--muted)}
+/* para quem tem negócio */
+.biz{background:var(--card)}
+.biz__grid{display:grid;gap:48px;align-items:start}
+@media(min-width:960px){.biz__grid{grid-template-columns:.9fr 1.1fr;gap:72px}}
+.perks{margin-top:8px;display:grid;gap:0;border-top:1px solid var(--line)}
+.perk{display:flex;gap:18px;padding:20px 0;border-bottom:1px solid var(--line)}
+.perk__n{font-family:var(--display);font-weight:800;font-size:13px;letter-spacing:.12em;color:var(--red);margin-top:3px}
+.perk h3{font-size:18px;letter-spacing:-.015em}
+.perk p{margin-top:5px;font-size:15px;color:var(--muted)}
+.biz__note{margin-top:22px;font-size:14px;color:var(--muted)}
 
-/* vendedores (fundo claro) */
-.sellers{background:var(--sand);color:var(--ink)}
-.sellers .eyebrow{color:rgba(18,16,15,.45)}
-.sellers .lead{color:rgba(18,16,15,.65)}
-.sellers__grid{display:grid;gap:56px;align-items:start}
-@media(min-width:1024px){.sellers__grid{grid-template-columns:.85fr 1.15fr;gap:80px}}
-.sellers .media{border:0;border-radius:32px}
-.sellers .media::after{display:none}
-.sellers__badge{position:absolute;right:-16px;bottom:-24px;padding:16px 20px;border-radius:16px;background:var(--ink);color:var(--sand)}
-.sellers__badge span{display:block;font-size:10px;letter-spacing:.18em;text-transform:uppercase;opacity:.6}
-.sellers__badge strong{font-family:var(--display);font-size:15px;font-weight:500}
-.benefits{margin-top:40px;border-top:1px solid rgba(18,16,15,.1)}
-.benefit{display:flex;gap:20px;padding:20px 0;border-bottom:1px solid rgba(18,16,15,.1)}
-.benefit__num{font-family:var(--display);font-size:11px;letter-spacing:.18em;color:var(--primary);margin-top:4px}
-.benefit h3{font-size:16px;font-weight:600;letter-spacing:-.01em}
-.benefit p{margin-top:4px;font-size:14px;line-height:1.6;color:rgba(18,16,15,.6)}
-.sellers__cta{margin-top:36px;display:flex;flex-wrap:wrap;align-items:center;gap:16px;font-size:13px;color:rgba(18,16,15,.5)}
+/* baixar */
+.get{background:var(--red-soft)}
+.get__grid{display:grid;gap:36px;align-items:center}
+@media(min-width:900px){.get__grid{grid-template-columns:1fr 1fr;gap:64px}}
+.get__btns{margin-top:28px;display:flex;flex-wrap:wrap;gap:12px}
+.tip{margin-top:28px;padding:22px;border-radius:18px;background:#fff;box-shadow:0 1px 0 var(--line)}
+.tip h3{font-size:17px;letter-spacing:-.01em}
+.tip ol{margin:12px 0 0;padding-left:20px;font-size:15px;color:var(--muted)}
+.tip li{margin-bottom:6px}
+.tip li strong{color:var(--ink)}
 
-/* FAQ */
-.faq{display:grid;gap:48px}
-@media(min-width:1024px){.faq{grid-template-columns:.8fr 1.2fr;gap:80px}}
-.faq__list{border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+/* dúvidas */
+.faq{display:grid;gap:40px}
+@media(min-width:960px){.faq{grid-template-columns:.8fr 1.2fr;gap:72px}}
+.faq__list{border-top:1px solid var(--line)}
 details{border-bottom:1px solid var(--line)}
-details:last-child{border-bottom:0}
-summary{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:20px 0;cursor:pointer;font-family:var(--display);font-size:16px;font-weight:500;color:rgba(237,234,227,.8);list-style:none}
+summary{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:20px 0;cursor:pointer;font-family:var(--display);font-weight:700;font-size:18px;letter-spacing:-.015em;list-style:none}
 summary::-webkit-details-marker{display:none}
-summary::after{content:"+";color:var(--primary);font-size:20px;line-height:1;transition:transform .3s}
-details[open] summary{color:var(--fg)}
+summary::after{content:"+";color:var(--red);font-size:26px;line-height:1;transition:transform .25s}
 details[open] summary::after{transform:rotate(45deg)}
-details p{max-width:34rem;padding:0 32px 24px 0;font-size:15px;line-height:1.6;color:var(--muted)}
+details p{max-width:36rem;padding:0 36px 22px 0;color:var(--muted);font-size:16px}
 
-/* CTA final */
-.final{position:relative;overflow:hidden;background:var(--primary);color:#fff}
-.final::before{content:"";position:absolute;left:-96px;top:-96px;width:288px;height:288px;border-radius:999px;background:rgba(255,255,255,.4);filter:blur(100px);opacity:.25}
-.final::after{content:"";position:absolute;right:0;bottom:-128px;width:320px;height:320px;border-radius:999px;background:#5c0006;filter:blur(120px);opacity:.25}
-.final__grid{position:relative;display:grid;gap:48px;align-items:end;padding:96px 0}
-@media(min-width:1024px){.final__grid{grid-template-columns:1.3fr .7fr;padding:112px 0}}
-.final h2{font-size:clamp(2.3rem,5.6vw,4.4rem);line-height:.95;letter-spacing:-.045em;text-wrap:balance}
-.final .eyebrow{color:rgba(255,255,255,.7)}
-.final p{max-width:24rem;margin-bottom:28px;font-size:16px;color:rgba(255,255,255,.8)}
+/* fecho */
+.final{background:var(--red);color:#fff;text-align:center}
+.final .wrap{padding-top:88px;padding-bottom:88px}
+.final h2{font-size:clamp(2.1rem,5vw,3.8rem);text-wrap:balance}
+.final p{margin:18px auto 30px;max-width:30rem;color:rgba(255,255,255,.88)}
+.final__btns{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
+.btn--ghost-w{border-color:rgba(255,255,255,.7);color:#fff}
+.btn--ghost-w:hover{background:rgba(255,255,255,.12)}
 
 /* rodapé */
-.footer{border-top:1px solid var(--line);background:var(--bg);padding:64px 0}
-@media(min-width:1024px){.footer{padding:80px 0}}
-.footer__grid{display:grid;gap:48px}
-@media(min-width:1024px){.footer__grid{grid-template-columns:1.4fr .6fr .6fr .8fr}}
-.footer__title{margin-bottom:16px;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:rgba(163,160,154,.6)}
-.footer ul{margin:0;padding:0;list-style:none;display:grid;gap:12px}
-.footer li a,.footer p{font-size:14px;color:var(--muted);text-decoration:none;line-height:1.6}
-.footer li a:hover{color:var(--fg)}
-.footer__tag{margin-top:20px;max-width:20rem;font-size:15px;line-height:1.6;color:var(--muted)}
-.footer__link{display:inline-block;margin-top:16px;padding-bottom:2px;border-bottom:1px solid rgba(237,28,36,.4);font-size:14px;text-decoration:none}
-.footer__link:hover{border-bottom-color:var(--primary)}
-.footer__bottom{margin-top:56px;padding-top:28px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:12px;font-size:12px;color:rgba(163,160,154,.6)}
-@media(min-width:640px){.footer__bottom{flex-direction:row;align-items:center;justify-content:space-between}}
+.footer{padding:56px 0;font-size:14px;color:var(--muted)}
+.footer__grid{display:grid;gap:32px}
+@media(min-width:800px){.footer__grid{grid-template-columns:1.4fr 1fr 1fr}}
+.footer .brand{font-size:1.6rem;color:var(--ink)}
+.footer__tag{margin-top:14px;max-width:22rem}
+.footer h4{margin:0 0 12px;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink)}
+.footer ul{margin:0;padding:0;list-style:none;display:grid;gap:8px}
+.footer a{text-decoration:none}
+.footer a:hover{color:var(--red)}
+.footer__bottom{margin-top:40px;padding-top:24px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:6px;font-size:13px}
+@media(min-width:700px){.footer__bottom{flex-direction:row;justify-content:space-between}}
 
-@media(prefers-reduced-motion:reduce){
-  .marquee__track,.pin::after{animation:none}
-  html{scroll-behavior:auto}
-  .phone{transform:none}
-}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.phone,.btn{transition:none}.phone{transform:none}}
 </style>
 </head>
 <body>
 
-<!-- ================= CABEÇALHO ================= -->
 <header class="header" id="header">
   <div class="nav">
-    <a class="wordmark" href="#top">kapon<b>.</b></a>
+    <a class="brand" href="#top"><img src="images/logo-192.png" alt="" width="36" height="36">kapon</a>
     <nav class="nav-links">
+      <a href="#significado">O nome</a>
       <a href="#como-funciona">Como funciona</a>
-      <a href="#comprar">Para quem compra</a>
-      <a href="#vender">Para quem vende</a>
+      <a href="#negocios">Para negócios</a>
       <a href="#duvidas">Dúvidas</a>
     </nav>
-    <a class="btn btn--sm" href="https://play.google.com/store/apps/details?id=com.kapon.app&amp;hl=pt-BR" target="_blank" rel="noreferrer">Baixar o app <span class="arw">↗</span></a>
+    <a class="btn btn--primary btn--sm js-cta" href="#baixar">Baixe grátis</a>
   </div>
 </header>
 
 <main id="top">
 
-  <!-- ================= 1. HERO ================= -->
+  <!-- 1. Início -->
   <section class="hero">
-    <div class="hero__glow"></div>
     <div class="wrap hero__grid">
       <div>
-        <div class="badge"><span class="dot"></span> Compras no seu bairro</div>
-        <h1>O que você precisa já está <b>aqui do lado.</b></h1>
-        <p class="hero__sub">O Kapon mostra no mapa os produtos que estão sendo vendidos perto de você. Encontre, converse com o vendedor e combine a compra — tudo pelo app.</p>
+        <div class="badge"><span>📍</span> Começando pelo <b>Prado, Bahia</b></div>
+        <h1>Descubra o que há de bom <em>perto de você.</em></h1>
+        <p class="hero__sub">Restaurantes, pousadas, casas de temporada, passeios e comércio da cidade, tudo em um mapa. Veja fotos, preços e fale direto com quem atende.</p>
         <div class="hero__actions">
-          <a class="btn btn--primary" href="https://play.google.com/store/apps/details?id=com.kapon.app&amp;hl=pt-BR" target="_blank" rel="noreferrer">Baixar na Google Play <span class="arw">↗</span></a>
-          <a class="btn btn--ghost" href="#vender">Quero vender no Kapon</a>
+          <a class="btn btn--primary js-cta" href="#baixar">Baixe grátis</a>
+          <a class="btn btn--outline" href="#negocios">Tenho um negócio</a>
         </div>
-        <p class="hero__note">Grátis para baixar · Android · Feito no Brasil</p>
+        <p class="hero__note">Grátis · Android e iPhone</p>
       </div>
-
       <div class="hero__visual">
-        <div class="hero__bg">
-          <img src="https://media.base44.com/images/public/6aea341e3df95f339be28b5c/d01410db9_generated_49374e55.png" alt="" />
-        </div>
-
-        <!-- Mockup do app: tela de mapa -->
         <div class="phone">
-          <div class="phone__body">
-            <div class="phone__screen">
-              <div class="map"></div>
-              <div class="screen-top"><i></i><span>O que você procura?</span></div>
-              <div class="pin">➤</div>
-              <div class="tag tag--1"><i style="background:#ffb257"></i> pão de queijo</div>
-              <div class="tag tag--2"><i style="background:var(--primary)"></i> açaí 300 ml</div>
-              <div class="sheet">
-                <div class="sheet__handle"></div>
-                <p class="sheet__label">Perto de você</p>
-                <div class="row"><div><p>Cachorro quente completo</p><small>250 m de você</small></div><b>R$ 12</b></div>
-                <div class="row"><div><p>Pão de queijo (6 un.)</p><small>400 m de você</small></div><b>R$ 15</b></div>
-                <div class="sheet__cta">💬 Falar com o vendedor</div>
-              </div>
-            </div>
+          <div class="phone__screen">
+            <img src="images/app-mapa.jpg" width="600" height="1202" alt="Tela do app Kapon: mapa do Prado com restaurantes, pousadas e casas, e um carrossel de destaques no topo">
           </div>
         </div>
-
-        <div class="float-card"><span>mais próximo</span><strong>250 m</strong></div>
       </div>
     </div>
   </section>
 
-  <!-- ================= 2. FAIXA ROLANTE ================= -->
-  <div class="marquee">
-    <div class="marquee__track">
-      <div class="marquee__item">cachorro quente <b></b> pão de queijo <b></b> açaí <b></b> bolo de pote <b></b> hortifruti <b></b> artesanato <b></b> brechó <b></b> lanches <b></b> doces caseiros <b></b> flores <b></b> comida caseira <b></b> material escolar <b></b></div>
-      <div class="marquee__item">cachorro quente <b></b> pão de queijo <b></b> açaí <b></b> bolo de pote <b></b> hortifruti <b></b> artesanato <b></b> brechó <b></b> lanches <b></b> doces caseiros <b></b> flores <b></b> comida caseira <b></b> material escolar <b></b></div>
+  <!-- 2. O nome -->
+  <section class="meaning" id="significado">
+    <div class="wrap">
+      <p class="eyebrow">O nome</p>
+      <div class="meaning__word">kapon</div>
+      <p class="meaning__def"><i>em Xipaya,</i> perto</p>
+      <p class="text">É essa a ideia do app: aproximar quem chega e quem mora de quem faz a cidade acontecer, o restaurante da esquina, a pousada do bairro, o passeio com o barqueiro da região.</p>
     </div>
-  </div>
+  </section>
 
-  <!-- ================= 3. COMO FUNCIONA ================= -->
-  <section class="section wrap" id="como-funciona">
+  <!-- 3. O que tem -->
+  <section class="section wrap" id="categorias">
+    <p class="eyebrow">O que você encontra</p>
+    <h2 class="h2">A cidade inteira em um só lugar.</h2>
+    <div class="cats">
+      <div class="cat"><div class="cat__ico"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M11 9H9V2H7v7H5V2H3v7c0 2.1 1.6 3.8 3.6 4v9h2v-9c2-.2 3.4-1.9 3.4-4V2h-2v7zm5-3v8h2.5v8H21V2c-2.8 0-5 2.2-5 4z"/></svg></div><div><strong>Restaurantes</strong><small>Do lanche ao jantar</small></div></div>
+      <div class="cat"><div class="cat__ico"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 13c1.7 0 3-1.3 3-3S8.7 7 7 7s-3 1.3-3 3 1.3 3 3 3zm12-6h-8v7H3V5H1v15h2v-3h18v3h2v-9c0-2.2-1.8-4-4-4z"/></svg></div><div><strong>Hotéis e pousadas</strong><small>Onde ficar</small></div></div>
+      <div class="cat"><div class="cat__ico"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3 2 12h3v8h5v-6h4v6h5v-8h3L12 3z"/></svg></div><div><strong>Casas de temporada</strong><small>Para a família toda</small></div></div>
+      <div class="cat"><div class="cat__ico"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 21c-1.4 0-2.6-.4-3.5-1-.9.6-2.1 1-3.5 1s-2.6-.4-3.5-1c-.9.6-2.1 1-3.5 1H4v-2h2c1.4 0 2.3-.8 3-1.5l.5-.5.5.5c.7.7 1.600 1.500 3 1.500s2.300-.8 3-1.500l.5-.5.5.5c.7.700 1.600 1.500 3 1.500h2v2h-1zM3.9 15.500 2 8l10-3 10 3-1.900 7.500c-.7-.3-1.400-.8-2-1.400l-.1-.1-.1.100c-1 1-2.100 1.900-3.900 1.900s-2.900-.9-3.900-1.900l-.1-.1-.1.100c-1 1-2.100 1.900-3.900 1.900-.8 0-1.500-.3-2.100-.6z"/></svg></div><div><strong>Passeios</strong><small>Barco, trilha e aventura</small></div></div>
+      <div class="cat"><div class="cat__ico"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 4h16v2l1 5v2h-1v7h-8v-7H8v7H4v-7H3v-2l1-5V4zm2 2v.5L5.200 11h13.600L18 6.500V6H6z"/></svg></div><div><strong>Comércio</strong><small>Lojas e produtos locais</small></div></div>
+      <div class="cat"><div class="cat__ico"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22.700 19 13.600 9.900c.9-2.300.4-5-1.500-6.900-2-2-5-2.400-7.400-1.300L9 6 6 9 1.600 4.700C.4 7.100.9 10.100 2.900 12.100c1.900 1.900 4.600 2.400 6.900 1.500l9.100 9.100c.4.400 1 .4 1.400 0l2.300-2.300c.5-.4.500-1.100.1-1.400z"/></svg></div><div><strong>Serviços</strong><small>Quem resolve por perto</small></div></div>
+    </div>
+  </section>
+
+  <!-- 4. Como funciona -->
+  <section class="section wrap" id="como-funciona" style="padding-top:0">
     <p class="eyebrow">Como funciona</p>
-    <h2 class="h2">Três passos entre você e a compra.</h2>
-
+    <h2 class="h2">Três passos até o lugar certo.</h2>
     <div class="steps">
-      <div class="step">
-        <span class="step__num">01</span>
-        <h3>Abra o mapa</h3>
-        <p>O Kapon abre no mapa da sua região e mostra quem está vendendo a poucos quarteirões de você.</p>
-      </div>
-      <div class="step">
-        <span class="step__num">02</span>
-        <h3>Encontre o produto</h3>
-        <p>Toque no ponto no mapa para ver os produtos, o preço e a distância real até você.</p>
-      </div>
-      <div class="step">
-        <span class="step__num">03</span>
-        <h3>Fale com quem vende</h3>
-        <p>A conversa acontece dentro do app: combine retirada, entrega e forma de pagamento.</p>
-      </div>
+      <div class="step"><span class="step__n">01</span><h3>Abra o mapa</h3><p>Veja os negócios da cidade nos seus pontos reais e os destaques do dia no topo da tela.</p></div>
+      <div class="step"><span class="step__n">02</span><h3>Conheça o lugar</h3><p>Fotos, descrição, avaliações, promoções e cardápio ou catálogo. Nas casas de temporada, filtre por quantas pessoas vão.</p></div>
+      <div class="step"><span class="step__n">03</span><h3>Fale e vá até lá</h3><p>Chame no WhatsApp, abra a rota e combine direto com quem atende. Sem intermediário e sem comissão.</p></div>
     </div>
-
-    <p class="steps__note">Sem taxa para quem compra e sem comissão sobre a venda: o Kapon conecta as duas pontas e a negociação é direta entre você e o vendedor.</p>
   </section>
 
-  <!-- ================= 4. PARA QUEM COMPRA ================= -->
-  <section class="section section--line" id="comprar">
-    <div class="wrap split">
-      <div class="media">
-        <img src="https://media.base44.com/images/public/6aea341e3df95f339be28b5c/becd55169_generated_9b852761.png" alt="Pessoa em uma rua movimentada à noite, iluminada pela luz da tela" />
-        <div class="media__card"><div><span>pronto para retirar</span><strong>a 250 metros de você</strong></div><span class="dot"></span></div>
-      </div>
-
+  <!-- 5. Para negócios -->
+  <section class="section biz" id="negocios">
+    <div class="wrap biz__grid">
       <div>
-        <p class="eyebrow">Para quem compra</p>
-        <h2 class="h2">Achou no mapa. Falou com quem vende.</h2>
-        <p class="lead">Em vez de rodar o bairro, você vê o que está a poucos metros de casa — e resolve tudo em uma conversa.</p>
-
-        <div class="features">
-          <div class="feature"><div class="feature__icon">◎</div><h3>Produtos por perto</h3><p>Tudo organizado pela distância real até você — do lanche da tarde ao artesanato da vizinha.</p></div>
-          <div class="feature"><div class="feature__icon">✳</div><h3>Conversa direta</h3><p>Tire dúvidas de sabor, tamanho ou horário falando com o vendedor dentro do app.</p></div>
-          <div class="feature"><div class="feature__icon">⇄</div><h3>Combina do seu jeito</h3><p>Retirada na porta ou entrega: você acerta os detalhes direto com quem vende.</p></div>
-          <div class="feature"><div class="feature__icon">♡</div><h3>Comércio do seu bairro</h3><p>Cada compra movimenta quem está do seu lado, não um galpão distante.</p></div>
-        </div>
+        <p class="eyebrow">Para quem tem um negócio</p>
+        <h2 class="h2">Seja encontrado por quem está por perto.</h2>
+        <p class="lead">Restaurante, pousada, casa de temporada, passeio, loja ou serviço: cadastre o seu e apareça para moradores e turistas.</p>
+        <div class="hero__actions"><a class="btn btn--primary js-cta" href="#baixar">Baixe e cadastre</a></div>
+        <p class="biz__note">O cadastro é grátis e passa por uma análise rápida antes de aparecer.</p>
+      </div>
+      <div class="perks">
+        <div class="perk"><span class="perk__n">01</span><div><h3>Seu lugar no mapa</h3><p>Fotos, endereço, horários, WhatsApp e Instagram em uma página só sua.</p></div></div>
+        <div class="perk"><span class="perk__n">02</span><div><h3>Vitrine de produtos</h3><p>Cardápio, acomodações ou produtos com preço e foto. Para casas de temporada: capacidade, comodidades, regras e distância da praia.</p></div></div>
+        <div class="perk"><span class="perk__n">03</span><div><h3>Promoções e avaliações</h3><p>Divulgue cupons e receba notas de quem já foi. Compartilhe sua página com um toque.</p></div></div>
+        <div class="perk"><span class="perk__n">04</span><div><h3>Números do seu negócio</h3><p>Veja quantas pessoas visitaram, chamaram no WhatsApp e pediram rota.</p></div></div>
+        <div class="perk"><span class="perk__n">05</span><div><h3>Destaque (opcional)</h3><p>Apareça no carrossel do topo do mapa e amplie sua vitrine por um período.</p></div></div>
       </div>
     </div>
   </section>
 
-  <!-- ================= 5. PARA QUEM VENDE ================= -->
-  <section class="section sellers" id="vender">
-    <div class="wrap sellers__grid">
-      <div class="media">
-        <img src="https://media.base44.com/images/public/6aea341e3df95f339be28b5c/577f088fb_generated_bae6e9f4.png" alt="Vitrine de uma loja de bairro ao anoitecer" />
-        <div class="sellers__badge"><span>no mapa</span><strong>seu bairro inteiro vê</strong></div>
-      </div>
-
+  <!-- 6. Baixar -->
+  <section class="section get" id="baixar">
+    <div class="wrap get__grid">
       <div>
-        <p class="eyebrow">Para quem vende</p>
-        <h2 class="h2">Coloque seus produtos no mapa.</h2>
-        <p class="lead">Cadastre o que você vende e apareça para quem está a poucos metros de você. Sem loja física, sem taxa de anúncio e sem comissão sobre a venda.</p>
-
-        <div class="benefits">
-          <div class="benefit"><span class="benefit__num">01</span><div><h3>Apareça no mapa</h3><p>Sua localização fica visível para quem está a poucos quarteirões de distância.</p></div></div>
-          <div class="benefit"><span class="benefit__num">02</span><div><h3>Anuncie em minutos</h3><p>Cadastre produtos com foto, descrição e preço direto pelo celular.</p></div></div>
-          <div class="benefit"><span class="benefit__num">03</span><div><h3>Receba contato direto</h3><p>O cliente fala com você pelo app, sem intermediário e sem comissão.</p></div></div>
-          <div class="benefit"><span class="benefit__num">04</span><div><h3>Venda como você já vende</h3><p>Cozinha caseira, artesanato, brechó, hortifruti ou loja: se tem produto, tem lugar no mapa.</p></div></div>
+        <p class="eyebrow">Baixe grátis</p>
+        <h2 class="h2">Leve o Kapon no bolso.</h2>
+        <p class="lead">Escolha o seu aparelho. Nos dois, o app é gratuito.</p>
+        <div class="get__btns">
+          <a class="btn btn--primary" href="https://play.google.com/store/apps/details?id=com.kapon.app&amp;hl=pt-BR" target="_blank" rel="noreferrer">Use no Android</a>
+          <a class="btn btn--outline" href="https://app.kapon.com.br" target="_blank" rel="noreferrer">Use no iPhone</a>
         </div>
-
-        <div class="sellers__cta">
-          <a class="btn btn--dark" href="https://play.google.com/store/apps/details?id=com.kapon.app&amp;hl=pt-BR" target="_blank" rel="noreferrer">Baixar e anunciar <span class="arw">↗</span></a>
-          <span>Grátis na Google Play</span>
-        </div>
+      </div>
+      <div class="tip" id="dica-iphone">
+        <h3>No iPhone, deixe o Kapon na tela inicial</h3>
+        <ol>
+          <li>Abra <strong>app.kapon.com.br</strong> no <strong>Safari</strong>.</li>
+          <li>Toque em <strong>Compartilhar</strong> (o quadrado com a seta para cima).</li>
+          <li>Escolha <strong>Adicionar à Tela de Início</strong> e toque em <strong>Adicionar</strong>.</li>
+        </ol>
+        <p style="margin-top:12px;font-size:14px;color:var(--muted)">Pronto: o ícone do Kapon aparece junto dos seus apps e abre em tela cheia.</p>
       </div>
     </div>
   </section>
 
-  <!-- ================= 6. PERGUNTAS FREQUENTES ================= -->
-  <section class="section section--line wrap faq" id="duvidas">
+  <!-- 7. Dúvidas -->
+  <section class="section wrap faq" id="duvidas">
     <div>
       <p class="eyebrow">Dúvidas</p>
       <h2 class="h2">Perguntas frequentes</h2>
-      <p class="lead" style="max-width:18rem">Se ficar qualquer dúvida, é só falar com a gente pelo app.</p>
     </div>
-
     <div class="faq__list">
       <details open>
         <summary>O Kapon é gratuito?</summary>
-        <p>Sim. Baixar e usar o Kapon é gratuito para quem compra e para quem vende. Não há taxa por anúncio nem comissão sobre as vendas.</p>
+        <p>Sim. Baixar e usar é grátis, e o cadastro de negócios também. O Kapon não cobra comissão sobre o que você vende. Há um plano de destaque opcional, para quem quer aparecer no carrossel do mapa.</p>
       </details>
       <details>
-        <summary>Como faço uma compra pelo app?</summary>
-        <p>Encontre o produto no mapa, abra a conversa com o vendedor e combine pagamento, retirada ou entrega direto com ele. O Kapon conecta você a quem vende.</p>
+        <summary>O que quer dizer “Kapon”?</summary>
+        <p>Kapon significa “perto” na língua Xipaya. O nome resume o app: mostrar o que está por perto.</p>
       </details>
       <details>
-        <summary>Como anuncio meus produtos?</summary>
-        <p>Baixe o app, cadastre seus produtos com foto, descrição e preço e ative sua localização no mapa. Quem estiver por perto passa a encontrar você.</p>
+        <summary>Como falo com o negócio?</summary>
+        <p>Pela página do negócio, no botão de WhatsApp. A conversa e o combinado, de pagamento a reserva, são direto entre você e quem atende.</p>
       </details>
       <details>
-        <summary>Preciso ter loja física para vender?</summary>
-        <p>Não. Você pode anunciar de casa, de um ponto fixo ou da sua loja. O importante é estar no mapa para quem está por perto.</p>
+        <summary>Como cadastro o meu negócio?</summary>
+        <p>Baixe o app, entre na aba “Meu negócio”, preencha as informações e envie fotos. Depois de uma análise rápida, ele passa a aparecer no mapa.</p>
       </details>
       <details>
-        <summary>Funciona na minha cidade?</summary>
-        <p>O mapa mostra os vendedores já cadastrados na sua região. Se ainda não houver ninguém por aí, você pode ser o primeiro — e chamar os vizinhos para vender junto.</p>
+        <summary>Em quais cidades funciona?</summary>
+        <p>Começamos pelo Prado, na Bahia, e estamos abrindo novas cidades. Se a sua ainda não está na lista, cadastre o seu negócio quando ela chegar ou fale com a gente.</p>
       </details>
       <details>
-        <summary>Em quais aparelhos o app funciona?</summary>
-        <p>O Kapon está disponível para Android, na Google Play.</p>
+        <summary>Funciona no iPhone?</summary>
+        <p>Sim. Abra app.kapon.com.br no Safari e use “Adicionar à Tela de Início”: o Kapon fica com ícone próprio e abre em tela cheia. Em breve, também na App Store.</p>
       </details>
     </div>
   </section>
 
-  <!-- ================= 7. CTA FINAL ================= -->
+  <!-- 8. Fecho -->
   <section class="final">
-    <div class="wrap final__grid">
-      <div>
-        <p class="eyebrow">Baixe o Kapon</p>
-        <h2>Tem algo bom a poucos passos.</h2>
-      </div>
-      <div>
-        <p>Abra o mapa e veja o que está sendo vendido perto de você agora.</p>
-        <a class="btn btn--light" href="https://play.google.com/store/apps/details?id=com.kapon.app&amp;hl=pt-BR" target="_blank" rel="noreferrer">Baixar na Google Play <span class="arw">↗</span></a>
+    <div class="wrap">
+      <h2>Tem algo bom perto de você.</h2>
+      <p>Abra o mapa e descubra.</p>
+      <div class="final__btns">
+        <a class="btn btn--white" href="https://play.google.com/store/apps/details?id=com.kapon.app&amp;hl=pt-BR" target="_blank" rel="noreferrer">Use no Android</a>
+        <a class="btn btn--ghost-w" href="https://app.kapon.com.br" target="_blank" rel="noreferrer">Use no iPhone</a>
       </div>
     </div>
   </section>
 </main>
 
-<!-- ================= RODAPÉ ================= -->
 <footer class="footer">
   <div class="wrap">
     <div class="footer__grid">
       <div>
-        <a class="wordmark" href="#top" style="font-size:1.875rem">kapon<b>.</b></a>
-        <p class="footer__tag">Comércio local no mapa: encontre o que precisa perto de você e fale direto com quem vende.</p>
+        <a class="brand" href="#top"><img src="images/logo-192.png" alt="" width="36" height="36">kapon</a>
+        <p class="footer__tag">Perto, em Xipaya. Descubra e apoie os negócios locais da sua cidade.</p>
       </div>
       <div>
-        <p class="footer__title">Navegue</p>
+        <h4>Navegue</h4>
         <ul>
+          <li><a href="#significado">O nome</a></li>
           <li><a href="#como-funciona">Como funciona</a></li>
-          <li><a href="#comprar">Para quem compra</a></li>
-          <li><a href="#vender">Para quem vende</a></li>
+          <li><a href="#negocios">Para negócios</a></li>
           <li><a href="#duvidas">Dúvidas</a></li>
         </ul>
       </div>
       <div>
-        <p class="footer__title">O app</p>
+        <h4>Baixar</h4>
         <ul>
-          <li><a href="https://play.google.com/store/apps/details?id=com.kapon.app&amp;hl=pt-BR" target="_blank" rel="noreferrer">Baixar na Google Play</a></li>
-          <li><a href="#vender">Anunciar meus produtos</a></li>
+          <li><a href="https://play.google.com/store/apps/details?id=com.kapon.app&amp;hl=pt-BR" target="_blank" rel="noreferrer">Android (Google Play)</a></li>
+          <li><a href="https://app.kapon.com.br" target="_blank" rel="noreferrer">iPhone (app.kapon.com.br)</a></li>
         </ul>
-      </div>
-      <div>
-        <p class="footer__title">Contato</p>
-        <p>Atendimento pelo próprio app, na conversa com o vendedor.</p>
-        <a class="footer__link" href="https://play.google.com/store/apps/details?id=com.kapon.app&amp;hl=pt-BR" target="_blank" rel="noreferrer">Abrir na Google Play</a>
       </div>
     </div>
     <div class="footer__bottom">
       <span>© <span id="year">2026</span> Kapon. Todos os direitos reservados.</span>
-      <span>Feito no Brasil, para o comércio do bairro.</span>
+      <span>Feito no Brasil, para o comércio local.</span>
     </div>
   </div>
 </footer>
 
 <script>
-  // Cabeçalho ganha fundo desfocado ao rolar + ano automático no rodapé.
+  // Cabeçalho ganha fundo ao rolar + ano automático.
   var header = document.getElementById('header');
   function onScroll(){ header.classList.toggle('is-scrolled', window.scrollY > 16); }
   onScroll();
   window.addEventListener('scroll', onScroll, { passive: true });
   document.getElementById('year').textContent = new Date().getFullYear();
+
+  // "Baixe grátis" leva direto à loja certa. No computador, rola até as duas opções.
+  (function () {
+    var ua = navigator.userAgent || '';
+    var isIOS = /iPhone|iPad|iPod/.test(ua) ||
+      (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    var isAndroid = /Android/.test(ua);
+    var dest = null;
+    if (isAndroid) dest = 'https://play.google.com/store/apps/details?id=com.kapon.app&hl=pt-BR';
+    if (isIOS) dest = 'https://app.kapon.com.br';
+    if (!dest) return;
+    document.querySelectorAll('.js-cta').forEach(function (a) {
+      a.href = dest;
+      a.target = '_blank';
+      a.rel = 'noreferrer';
+    });
+  })();
 </script>
 </body>
 </html>
