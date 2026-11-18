@@ -1,0 +1,503 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Kapon — “perto” em Xipaya. Os negócios da sua cidade no mapa</title>
+<meta name="description" content="Kapon significa “perto” na língua indígena Xipaya. O app mostra no mapa restaurantes, mercados, farmácias, bares, pousadas, casas de temporada, passeios, serviços e muito mais, começando por Prado, na Bahia." />
+<meta name="theme-color" content="#D81B20" />
+<link rel="icon" type="image/png" href="favicon.png" />
+<link rel="apple-touch-icon" href="apple-touch-icon.png" />
+
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Kapon — “perto” em Xipaya" />
+<meta property="og:description" content="Os negócios da sua cidade no mapa: restaurantes, mercados, farmácias, pousadas, casas de temporada, passeios, serviços e mais." />
+<meta property="og:url" content="https://www.kapon.com.br/" />
+<meta property="og:image" content="https://www.kapon.com.br/img/og.jpg" />
+<meta name="twitter:card" content="summary_large_image" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ---------- 1. CORES E MEDIDAS (as mesmas do app) ---------- */
+:root{
+  --bg:#f8f7f8;          /* fundo do app */
+  --card:#ffffff;
+  --fg:#1d1a1b;
+  --muted:#6a6567;
+  --primary:#d81b20;     /* botões e destaques */
+  --logo:#f21f24;        /* vermelho do logo */
+  --soft:#fde9ea;        /* tom claro do vermelho (chips, fundos) */
+  --ink:#1d1a1b;
+  --gold:#f5a623;        /* estrelas e selo premium, como no app */
+  --line:rgba(29,26,27,.12);
+  --display:"Bricolage Grotesque",system-ui,sans-serif;
+  --body:"Inter",system-ui,sans-serif;
+  --max:1152px;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--body);font-size:18px;line-height:1.6}
+img{max-width:100%;display:block}
+a{color:inherit}
+::selection{background:var(--primary);color:#fff}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+.eyebrow{margin:0 0 20px;font-size:12px;letter-spacing:.2em;text-transform:uppercase;font-weight:600;color:var(--primary)}
+h1,h2,h3{margin:0;font-family:var(--display);font-weight:800;letter-spacing:-.04em}
+p{margin:0}
+:focus-visible{outline:3px solid var(--primary);outline-offset:3px}
+
+/* ---------- 2. BOTÕES ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:12px;padding:16px 28px;border-radius:999px;font-size:16px;font-weight:600;text-decoration:none;border:2px solid transparent;transition:background .25s,color .25s,border-color .25s,transform .25s}
+.btn:hover{transform:translateY(-1px)}
+.btn--primary{background:var(--primary);color:#fff}
+.btn--primary:hover{background:#b8161b}
+.btn--ghost{border-color:var(--ink);color:var(--ink)}
+.btn--ghost:hover{background:var(--ink);color:#fff}
+.btn--light{background:#fff;color:var(--primary)}
+.btn--light:hover{background:var(--soft)}
+.btn--outline-light{border-color:#fff;color:#fff}
+.btn--outline-light:hover{background:#fff;color:var(--primary)}
+.btn--sm{padding:10px 20px;font-size:14px;background:var(--primary);color:#fff}
+.btn--sm:hover{background:#b8161b}
+
+/* ---------- 3. CABEÇALHO ---------- */
+.header{position:fixed;inset:0 0 auto;z-index:50;border-bottom:1px solid transparent;transition:background .3s,border-color .3s,backdrop-filter .3s}
+.header.is-scrolled{background:rgba(248,247,248,.88);backdrop-filter:blur(16px);border-bottom-color:var(--line)}
+.nav{max-width:var(--max);margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.wordmark{display:inline-flex;align-items:center;gap:10px;font-family:var(--display);font-weight:800;font-size:1.6rem;letter-spacing:-.055em;text-decoration:none;color:var(--ink)}
+.wordmark svg{width:30px;height:30px;border-radius:7px}
+.nav-links{display:none;gap:32px}
+.nav-links a{font-size:15px;color:var(--muted);text-decoration:none;transition:color .2s}
+.nav-links a:hover{color:var(--primary)}
+@media(min-width:1024px){.nav-links{display:flex}}
+
+/* ---------- 4. HERO ---------- */
+.hero{position:relative;overflow:hidden;padding:112px 0 64px}
+.hero__glow{position:absolute;top:-160px;right:-120px;width:720px;height:720px;background:radial-gradient(closest-side,rgba(242,31,36,.16),transparent);pointer-events:none}
+.hero__grid{position:relative;display:grid;gap:56px;align-items:center}
+@media(min-width:1024px){.hero{padding:150px 0 96px}.hero__grid{grid-template-columns:1.1fr .9fr;gap:40px}}
+.badge{display:inline-flex;align-items:center;gap:10px;margin-bottom:24px;padding:7px 16px;border:1px solid var(--line);background:#fff;border-radius:999px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;color:var(--muted)}
+.dot{width:7px;height:7px;border-radius:999px;background:var(--primary);flex:none}
+.hero h1{font-size:clamp(2.7rem,6.6vw,5.1rem);line-height:.95;letter-spacing:-.05em;text-wrap:balance}
+.hero h1 b{color:var(--primary);font-weight:800}
+.hero__sub{margin-top:26px;max-width:34rem;font-size:18px;line-height:1.6;color:var(--muted)}
+.hero__sub strong{color:var(--fg);font-weight:600}
+.hero__actions{margin-top:36px;display:flex;flex-wrap:wrap;gap:12px}
+.stores{margin-top:20px;display:flex;flex-wrap:wrap;align-items:center;gap:8px 20px;font-size:15px;color:var(--muted)}
+.stores a{font-weight:600;color:var(--ink);text-decoration:none;border-bottom:2px solid rgba(216,27,32,.35)}
+.stores a:hover{border-bottom-color:var(--primary);color:var(--primary)}
+.hero__note{margin-top:14px;font-size:13px;color:var(--muted)}
+.hero__visual{position:relative;display:flex;justify-content:center}
+@media(min-width:1024px){.hero__visual{justify-content:flex-end}}
+
+/* ---------- 5. CELULAR COM A TELA REAL DO APP ---------- */
+.phone{position:relative;width:272px;padding:10px;border-radius:44px;background:#16171a;box-shadow:0 40px 80px -30px rgba(216,27,32,.45),0 20px 40px -20px rgba(0,0,0,.35);transform:rotate(3deg);transition:transform .6s}
+.phone:hover{transform:rotate(0)}
+@media(min-width:640px){.phone{width:300px}}
+.phone img{width:100%;height:auto;aspect-ratio:720/1443;border-radius:34px;background:#fff}
+.phone::before{content:"";position:absolute;top:18px;left:50%;width:10px;height:10px;transform:translateX(-50%);border-radius:50%;background:#16171a;z-index:2}
+.float-card{position:absolute;display:none;padding:12px 16px;border:1px solid var(--line);border-radius:16px;background:#fff;box-shadow:0 12px 30px -12px rgba(0,0,0,.25)}
+.float-card span{display:block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.float-card strong{font-family:var(--display);font-size:18px;font-weight:700}
+.float-card--a{top:70px;left:-14px}
+.float-card--b{bottom:80px;right:-6px}
+@media(min-width:640px){.float-card{display:block}}
+
+/* ---------- 6. FAIXA DE CATEGORIAS ---------- */
+.marquee{overflow:hidden;padding:18px 0;background:var(--primary);color:#fff}
+.marquee__track{display:flex;width:max-content;gap:40px;white-space:nowrap;animation:slide 120s linear infinite}
+.marquee__item{display:flex;align-items:center;gap:40px;font-family:var(--display);font-size:20px;font-weight:700;letter-spacing:-.01em}
+.marquee__item b{width:8px;height:8px;border-radius:999px;background:#fff;opacity:.6}
+@keyframes slide{to{transform:translateX(-50%)}}
+
+/* ---------- 7. SEÇÕES ---------- */
+.section{padding:96px 0}
+@media(min-width:1024px){.section{padding:128px 0}}
+.h2{font-size:clamp(2rem,4.4vw,3.5rem);line-height:1.02;letter-spacing:-.045em;text-wrap:balance}
+.lead{margin-top:22px;max-width:36rem;font-size:17px;line-height:1.65;color:var(--muted)}
+
+/* o nome */
+.name{background:var(--card);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.name__grid{display:grid;gap:40px;align-items:center}
+@media(min-width:900px){.name__grid{grid-template-columns:.9fr 1.1fr;gap:80px}}
+.name__word{font-family:var(--display);font-weight:800;font-size:clamp(4.2rem,14vw,9rem);line-height:.85;letter-spacing:-.07em;color:var(--primary)}
+.name__def{margin-top:18px;font-size:15px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;color:var(--muted)}
+.name__def i{font-style:normal;color:var(--primary)}
+.name__text p+p{margin-top:16px}
+.name__text p{font-size:17px;line-height:1.7;color:var(--muted)}
+.name__text strong{color:var(--fg)}
+
+/* como funciona */
+.steps{margin-top:56px;display:grid;gap:16px}
+@media(min-width:768px){.steps{grid-template-columns:repeat(3,1fr)}}
+.step{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:36px}
+.step__num{display:grid;place-items:center;width:44px;height:44px;border-radius:999px;background:var(--soft);color:var(--primary);font-family:var(--display);font-weight:800;font-size:16px}
+.step h3{margin-top:22px;font-size:21px;font-weight:700;letter-spacing:-.02em}
+.step p{margin-top:10px;font-size:15px;line-height:1.65;color:var(--muted)}
+
+/* quem visita */
+.split{display:grid;gap:56px;align-items:center}
+@media(min-width:1024px){.split{grid-template-columns:1fr 1fr;gap:80px}}
+.features{margin-top:36px;display:grid;gap:26px}
+@media(min-width:640px){.features{grid-template-columns:1fr 1fr;column-gap:32px}}
+.feature__icon{display:grid;place-items:center;width:40px;height:40px;margin-bottom:12px;border-radius:12px;background:var(--soft);color:var(--primary);font-size:18px}
+.feature h3{font-size:16px;font-weight:700;letter-spacing:-.01em}
+.feature p{margin-top:6px;font-size:14px;line-height:1.6;color:var(--muted)}
+
+/* cartões de exemplo (feitos em CSS) */
+.demo{position:relative;padding:28px;border-radius:32px;background:linear-gradient(160deg,var(--soft),#fff 70%);border:1px solid var(--line)}
+.demo__tag{position:absolute;top:-12px;left:24px;padding:4px 12px;border-radius:999px;background:var(--ink);color:#fff;font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:600}
+.dcard{background:#fff;border:1px solid var(--line);border-radius:20px;padding:20px;box-shadow:0 14px 30px -18px rgba(0,0,0,.3)}
+.dcard+.dcard{margin-top:14px}
+.dcard__top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.dcard h4{margin:0;font-family:var(--display);font-size:19px;font-weight:700;letter-spacing:-.02em}
+.dcard small{display:block;margin-top:2px;font-size:13px;color:var(--muted)}
+.stars{color:var(--gold);font-size:14px;letter-spacing:2px;white-space:nowrap}
+.dcard__line{margin-top:12px;font-size:14px;color:var(--fg)}
+.chips{margin-top:14px;display:flex;flex-wrap:wrap;gap:8px}
+.chip{padding:5px 12px;border-radius:999px;background:var(--soft);color:#7d0f13;font-size:12.5px;font-weight:600}
+.chip--sel{background:var(--primary);color:#fff}
+.filter{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-bottom:16px;font-size:14px;font-weight:600}
+
+/* quem tem negócio (fundo escuro) */
+.sellers{background:var(--ink);color:#f4f1f1}
+.sellers .eyebrow{color:#ff8a8d}
+.sellers .lead{color:rgba(244,241,241,.7)}
+.sellers__grid{display:grid;gap:56px;align-items:start}
+@media(min-width:1024px){.sellers__grid{grid-template-columns:.85fr 1.15fr;gap:80px}}
+.sellers .demo{background:linear-gradient(160deg,#2a2527,#1d1a1b);border-color:rgba(255,255,255,.12)}
+.sellers .demo__tag{background:var(--primary)}
+.premium{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:999px;background:rgba(245,166,35,.16);color:var(--gold);font-size:12px;font-weight:700}
+.sellers .dcard{background:#fff;color:var(--fg)}
+.metrics{margin-top:14px;display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.metric{padding:12px 8px;border-radius:14px;background:var(--soft);text-align:center}
+.metric strong{display:block;font-family:var(--display);font-size:22px;color:var(--primary)}
+.metric span{font-size:11px;color:var(--muted)}
+.benefits{margin-top:36px;border-top:1px solid rgba(255,255,255,.12)}
+.benefit{display:flex;gap:20px;padding:20px 0;border-bottom:1px solid rgba(255,255,255,.12)}
+.benefit__num{font-family:var(--display);font-size:13px;letter-spacing:.14em;color:#ff8a8d;margin-top:4px}
+.benefit h3{font-size:17px;font-weight:700;letter-spacing:-.01em}
+.benefit p{margin-top:4px;font-size:14.5px;line-height:1.6;color:rgba(244,241,241,.66)}
+.sellers__cta{margin-top:34px;display:flex;flex-wrap:wrap;align-items:center;gap:16px;font-size:13px;color:rgba(244,241,241,.55)}
+
+/* perguntas */
+.faq{display:grid;gap:48px}
+@media(min-width:1024px){.faq{grid-template-columns:.8fr 1.2fr;gap:80px}}
+.faq__list{border-top:1px solid var(--line)}
+details{border-bottom:1px solid var(--line)}
+summary{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:22px 0;cursor:pointer;font-family:var(--display);font-size:18px;font-weight:700;letter-spacing:-.02em;list-style:none}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";color:var(--primary);font-size:26px;line-height:1;transition:transform .3s}
+details[open] summary::after{transform:rotate(45deg)}
+details p{max-width:36rem;padding:0 32px 24px 0;font-size:15.5px;line-height:1.65;color:var(--muted)}
+
+/* chamada final */
+.final{position:relative;overflow:hidden;background:var(--primary);color:#fff}
+.final::before{content:"";position:absolute;left:-60px;top:-60px;border-style:solid;border-width:200px 200px 0 0;border-color:rgba(255,255,255,.12) transparent transparent transparent}
+.final::after{content:"";position:absolute;right:-60px;bottom:-60px;border-style:solid;border-width:0 0 200px 200px;border-color:transparent transparent rgba(255,255,255,.12) transparent}
+.final__grid{position:relative;display:grid;gap:40px;align-items:center;padding:96px 0}
+@media(min-width:1024px){.final__grid{grid-template-columns:1.2fr .8fr;padding:112px 0}}
+.final h2{font-size:clamp(2.3rem,5.6vw,4.4rem);line-height:.95;letter-spacing:-.05em;text-wrap:balance}
+.final .eyebrow{color:rgba(255,255,255,.78)}
+.final p.txt{max-width:26rem;margin-bottom:24px;font-size:17px;color:rgba(255,255,255,.88)}
+.final__btns{display:flex;flex-wrap:wrap;gap:12px}
+.final__tip{margin-top:16px;max-width:26rem;font-size:13.5px;line-height:1.55;color:rgba(255,255,255,.82)}
+
+/* rodapé */
+.footer{background:var(--card);border-top:1px solid var(--line);padding:64px 0 40px}
+.footer__grid{display:grid;gap:44px}
+@media(min-width:1024px){.footer__grid{grid-template-columns:1.4fr .6fr .8fr}}
+.footer__title{margin-bottom:14px;font-size:12px;letter-spacing:.18em;text-transform:uppercase;font-weight:600;color:var(--muted)}
+.footer ul{margin:0;padding:0;list-style:none;display:grid;gap:12px}
+.footer li a{font-size:15px;color:var(--fg);text-decoration:none}
+.footer li a:hover{color:var(--primary)}
+.footer__tag{margin-top:18px;max-width:22rem;font-size:15px;line-height:1.6;color:var(--muted)}
+.footer__bottom{margin-top:48px;padding-top:24px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:10px;font-size:13px;color:var(--muted)}
+@media(min-width:640px){.footer__bottom{flex-direction:row;align-items:center;justify-content:space-between}}
+
+@media(prefers-reduced-motion:reduce){
+  .marquee__track{animation:none}
+  html{scroll-behavior:auto}
+  .phone{transform:none}
+}
+</style>
+</head>
+<body>
+
+<!-- ================= CABEÇALHO ================= -->
+<header class="header" id="header">
+  <div class="nav">
+    <a class="wordmark" href="#top" aria-label="Kapon, início">
+      <svg viewBox="0 0 240 240" aria-hidden="true"><rect width="240" height="240" fill="#f8f7f8"/><g fill="#f21f24"><polygon points="18,18 78,18 18,78"/><polygon points="222,18 162,18 222,78"/><polygon points="18,222 78,222 18,162"/><polygon points="222,222 162,222 222,162"/><polygon points="56,53 93,53 93,116 145,53 186,53 131,116 184,186 140,186 102,136 93,145 93,186 56,186"/></g></svg>
+      kapon
+    </a>
+    <nav class="nav-links" aria-label="Seções">
+      <a href="#nome">O nome</a>
+      <a href="#como-funciona">Como funciona</a>
+      <a href="#visitar">Para quem visita</a>
+      <a href="#negocio">Para quem tem negócio</a>
+      <a href="#duvidas">Dúvidas</a>
+    </nav>
+    <a class="btn btn--sm js-download" href="#baixar">Baixe grátis</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ================= 1. HERO ================= -->
+  <section class="hero">
+    <div class="hero__glow"></div>
+    <div class="wrap hero__grid">
+      <div>
+        <div class="badge"><span class="dot"></span> Começando por Prado, Bahia</div>
+        <h1>Kapon quer dizer <b>perto.</b></h1>
+        <p class="hero__sub">Na língua indígena Xipaya, <strong>kapon significa “perto”</strong>. O app põe no mapa o que está perto de você: restaurantes, mercados, farmácias, padarias, pousadas, casas de temporada, passeios, serviços e o comércio da cidade.</p>
+        <div class="hero__actions">
+          <a class="btn btn--primary js-download" href="#baixar">Baixe grátis</a>
+          <a class="btn btn--ghost" href="#negocio">Quero divulgar meu negócio</a>
+        </div>
+        <p class="stores">
+          <span>Escolha o seu aparelho:</span>
+          <a href="https://play.google.com/store/apps/details?id=com.kapon.app&amp;hl=pt-BR" target="_blank" rel="noreferrer">Use no Android</a>
+          <a href="https://app.kapon.com.br" target="_blank" rel="noreferrer">Use no iPhone</a>
+        </p>
+        <p class="hero__note">Grátis para usar · Sem comissão sobre as vendas · Feito no Brasil</p>
+      </div>
+
+      <div class="hero__visual">
+        <div class="phone">
+          <img src="img/app-mapa.webp" width="720" height="1443" alt="Tela do app Kapon: carrossel de negócios em destaque no topo e o mapa de Prado com pinos de restaurantes, pousada e casa de temporada" />
+        </div>
+        <div class="float-card float-card--a"><span>primeira cidade</span><strong>Prado, BA</strong></div>
+        <div class="float-card float-card--b"><span>no mapa</span><strong>tudo perto de você</strong></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 2. FAIXA DE CATEGORIAS ================= -->
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee__track">
+      <div class="marquee__item">Restaurantes <b></b> Padaria e lanchonete <b></b> Bar <b></b> Sorveteria <b></b> Bebidas <b></b> Mercado <b></b> Açougue <b></b> Pescados <b></b> Farmácia <b></b> Roupas e acessórios <b></b> Artesanato <b></b> Utilidades <b></b> Construção e ferramentas <b></b> Veículos <b></b> Imóveis <b></b> Cabeleireira <b></b> Barbearia <b></b> Pets <b></b> Gás e água <b></b> Hotéis e pousadas <b></b> Casas de temporada <b></b> Passeios <b></b> Serviços <b></b> Outros <b></b></div>
+      <div class="marquee__item">Restaurantes <b></b> Padaria e lanchonete <b></b> Bar <b></b> Sorveteria <b></b> Bebidas <b></b> Mercado <b></b> Açougue <b></b> Pescados <b></b> Farmácia <b></b> Roupas e acessórios <b></b> Artesanato <b></b> Utilidades <b></b> Construção e ferramentas <b></b> Veículos <b></b> Imóveis <b></b> Cabeleireira <b></b> Barbearia <b></b> Pets <b></b> Gás e água <b></b> Hotéis e pousadas <b></b> Casas de temporada <b></b> Passeios <b></b> Serviços <b></b> Outros <b></b></div>
+    </div>
+  </div>
+
+  <!-- ================= 3. O NOME ================= -->
+  <section class="section name" id="nome">
+    <div class="wrap name__grid">
+      <div>
+        <div class="name__word">kapon</div>
+        <p class="name__def">Xipaya · <i>perto</i></p>
+      </div>
+      <div class="name__text">
+        <p class="eyebrow">De onde vem o nome</p>
+        <h2 class="h2">Uma palavra pequena para uma ideia simples.</h2>
+        <p style="margin-top:22px"><strong>Kapon</strong> vem do Xipaya, língua de um povo indígena do Pará, e significa <strong>“perto”</strong>.</p>
+        <p>É isso que o app faz: aproxima quem chega de quem acolhe, quem tem fome de quem cozinha, quem procura um lugar para ficar de quem tem casa, pousada ou passeio para oferecer. O que é bom da cidade, a poucos passos de você.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 4. COMO FUNCIONA ================= -->
+  <section class="section wrap" id="como-funciona">
+    <p class="eyebrow">Como funciona</p>
+    <h2 class="h2">Três passos entre você e o lugar certo.</h2>
+
+    <div class="steps">
+      <div class="step">
+        <span class="step__num">1</span>
+        <h3>Abra o mapa</h3>
+        <p>Escolha a cidade e veja os negócios marcados no mapa, com os destaques passando no topo da tela.</p>
+      </div>
+      <div class="step">
+        <span class="step__num">2</span>
+        <h3>Encontre o que procura</h3>
+        <p>Filtre por categoria, veja fotos, avaliações, promoções e, nas casas de temporada, quantas pessoas cabem.</p>
+      </div>
+      <div class="step">
+        <span class="step__num">3</span>
+        <h3>Fale e vá até lá</h3>
+        <p>Chame o negócio pelo WhatsApp, abra a rota para chegar e compartilhe com quem vai junto.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 5. PARA QUEM VISITA ================= -->
+  <section class="section" id="visitar" style="background:var(--card);border-top:1px solid var(--line)">
+    <div class="wrap split">
+      <div class="demo">
+        <span class="demo__tag">Exemplo</span>
+        <div class="filter"><span>Para quantas pessoas?</span><span class="chip">2</span><span class="chip">4</span><span class="chip chip--sel">6</span><span class="chip">8</span></div>
+        <div class="dcard">
+          <div class="dcard__top"><div><h4>Casa na praia</h4><small>Casas de temporada</small></div><span class="stars">★★★★★</span></div>
+          <p class="dcard__line">até 8 hóspedes · 3 quartos · 5 camas · 2 banheiros</p>
+          <p class="dcard__line" style="color:var(--primary);font-weight:600">300 m da praia</p>
+          <div class="chips"><span class="chip">Piscina</span><span class="chip">Wi-Fi</span><span class="chip">Churrasqueira</span><span class="chip">Aceita pets</span></div>
+        </div>
+      </div>
+
+      <div>
+        <p class="eyebrow">Para quem visita</p>
+        <h2 class="h2">Tudo que a cidade tem, no mesmo mapa.</h2>
+        <p class="lead">Em vez de perguntar de porta em porta, você vê o que existe por perto e decide com calma, com fotos, preços e a opinião de quem já foi.</p>
+
+        <div class="features">
+          <div class="feature"><div class="feature__icon">◎</div><h3>Mapa da cidade</h3><p>Restaurantes, mercados, farmácias, pousadas, passeios e lojas marcados onde realmente estão.</p></div>
+          <div class="feature"><div class="feature__icon">⌂</div><h3>Casas de temporada</h3><p>Capacidade, comodidades, regras e distância da praia, e o filtro “para quantas pessoas”.</p></div>
+          <div class="feature"><div class="feature__icon">★</div><h3>Avaliações e favoritos</h3><p>Leia o que outros visitantes acharam e guarde os lugares de que gostou.</p></div>
+          <div class="feature"><div class="feature__icon">%</div><h3>Promoções e cupons</h3><p>Ofertas dos negócios aparecem direto na página de cada um.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 6. PARA QUEM TEM NEGÓCIO ================= -->
+  <section class="section sellers" id="negocio">
+    <div class="wrap sellers__grid">
+      <div class="demo">
+        <span class="demo__tag">Exemplo</span>
+        <div class="dcard">
+          <div class="dcard__top"><div><h4>Sua pousada, seu restaurante, seu passeio</h4><small>Aparece no mapa e no carrossel</small></div><span class="premium">★ Destaque</span></div>
+          <div class="metrics">
+            <div class="metric"><strong>Visitas</strong><span>à sua página</span></div>
+            <div class="metric"><strong>WhatsApp</strong><span>toques para falar</span></div>
+            <div class="metric"><strong>Rotas</strong><span>pedidas até você</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <p class="eyebrow">Para quem tem negócio</p>
+        <h2 class="h2">Seja o que está perto de quem chega.</h2>
+        <p class="lead">Cadastre seu negócio, apareça no mapa da cidade e receba o contato direto dos clientes. Sem comissão sobre o que você vender.</p>
+
+        <div class="benefits">
+          <div class="benefit"><span class="benefit__num">01</span><div><h3>Cadastro gratuito</h3><p>Preencha os dados e as fotos pelo celular. A equipe do Kapon analisa e publica.</p></div></div>
+          <div class="benefit"><span class="benefit__num">02</span><div><h3>Vitrine com seus produtos</h3><p>Monte o cardápio ou o catálogo com preço e foto, e marque o que está disponível.</p></div></div>
+          <div class="benefit"><span class="benefit__num">03</span><div><h3>Promoções e números</h3><p>Crie cupons e acompanhe quantas pessoas viram, chamaram no WhatsApp ou pediram a rota.</p></div></div>
+          <div class="benefit"><span class="benefit__num">04</span><div><h3>Destaque Premium</h3><p>Apareça no carrossel do mapa, com mais fotos e uma vitrine maior. Pagamento por Pix.</p></div></div>
+        </div>
+
+        <div class="sellers__cta">
+          <a class="btn btn--primary js-download" href="#baixar">Baixe e cadastre seu negócio</a>
+          <span>Grátis para começar</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 7. PERGUNTAS FREQUENTES ================= -->
+  <section class="section wrap faq" id="duvidas">
+    <div>
+      <p class="eyebrow">Dúvidas</p>
+      <h2 class="h2">Perguntas frequentes</h2>
+      <p class="lead" style="max-width:18rem">Ficou com alguma dúvida? Fale com a gente pelo app.</p>
+    </div>
+
+    <div class="faq__list">
+      <details open>
+        <summary>O Kapon é gratuito?</summary>
+        <p>Sim. Usar o app é grátis para quem visita e para quem tem negócio. O cadastro é gratuito e não há comissão sobre as vendas. O plano de destaque Premium é opcional.</p>
+      </details>
+      <details>
+        <summary>O que significa “kapon”?</summary>
+        <p>Significa “perto” na língua Xipaya, de um povo indígena do Pará. É a ideia do app: mostrar o que está perto de você.</p>
+      </details>
+      <details>
+        <summary>Em quais cidades funciona?</summary>
+        <p>Começamos por Prado, na Bahia. Outras cidades entram aos poucos. Se a sua cidade ainda não aparece, você pode ser o primeiro a chamar os negócios de lá.</p>
+      </details>
+      <details>
+        <summary>Funciona no iPhone?</summary>
+        <p>Sim. No iPhone você usa o Kapon direto no navegador, em app.kapon.com.br, e pode deixá-lo na tela inicial: no Safari, toque em Compartilhar e depois em “Adicionar à Tela de Início”. A versão para a App Store vem em breve.</p>
+      </details>
+      <details>
+        <summary>Como cadastro meu negócio?</summary>
+        <p>Baixe o app, crie sua conta e cadastre o negócio com fotos, descrição, contato e localização. Depois de analisado pela equipe, ele aparece para os visitantes.</p>
+      </details>
+      <details>
+        <summary>Como funciona o destaque Premium?</summary>
+        <p>É um plano opcional, pago por Pix, que coloca o seu negócio no carrossel do mapa, libera mais fotos e aumenta o limite de itens da vitrine. Você escolhe por quanto tempo.</p>
+      </details>
+    </div>
+  </section>
+
+  <!-- ================= 8. CHAMADA FINAL ================= -->
+  <section class="final" id="baixar">
+    <div class="wrap final__grid">
+      <div>
+        <p class="eyebrow">Baixe o Kapon</p>
+        <h2>Tem algo bom perto de você.</h2>
+      </div>
+      <div>
+        <p class="txt">Abra o mapa e descubra o que a cidade tem a poucos passos.</p>
+        <div class="final__btns">
+          <a class="btn btn--light" href="https://play.google.com/store/apps/details?id=com.kapon.app&amp;hl=pt-BR" target="_blank" rel="noreferrer">Use no Android</a>
+          <a class="btn btn--outline-light" href="https://app.kapon.com.br" target="_blank" rel="noreferrer">Use no iPhone</a>
+        </div>
+        <p class="final__tip">No iPhone: abra no Safari, toque em Compartilhar e em “Adicionar à Tela de Início”.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ================= RODAPÉ ================= -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer__grid">
+      <div>
+        <a class="wordmark" href="#top" style="font-size:1.9rem">kapon</a>
+        <p class="footer__tag">Kapon significa “perto” em Xipaya. Os negócios da sua cidade, no mapa.</p>
+      </div>
+      <div>
+        <p class="footer__title">Navegue</p>
+        <ul>
+          <li><a href="#nome">O nome</a></li>
+          <li><a href="#como-funciona">Como funciona</a></li>
+          <li><a href="#visitar">Para quem visita</a></li>
+          <li><a href="#negocio">Para quem tem negócio</a></li>
+          <li><a href="#duvidas">Dúvidas</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer__title">O app</p>
+        <ul>
+          <li><a href="https://play.google.com/store/apps/details?id=com.kapon.app&amp;hl=pt-BR" target="_blank" rel="noreferrer">Use no Android</a></li>
+          <li><a href="https://app.kapon.com.br" target="_blank" rel="noreferrer">Use no iPhone</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <span>© <span id="year">2026</span> Kapon. Todos os direitos reservados.</span>
+      <span><a href="politicaprivacidade.htm">Privacidade</a> · <a href="excluirconta.htm">Excluir conta</a> · Feito no Brasil, para o comércio de cada cidade.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Cabeçalho ganha fundo ao rolar e o ano do rodapé é automático.
+  var header = document.getElementById('header');
+  function onScroll(){ header.classList.toggle('is-scrolled', window.scrollY > 16); }
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // Botão "Baixe grátis": leva ao lugar certo conforme o aparelho.
+  // iPhone/iPad -> app web; Android -> Google Play; computador -> seção com as duas opções.
+  (function () {
+    var ua = navigator.userAgent || '';
+    var isIOS = /iPhone|iPad|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    var isAndroid = /Android/.test(ua);
+    var url = isIOS ? 'https://app.kapon.com.br'
+            : isAndroid ? 'https://play.google.com/store/apps/details?id=com.kapon.app&hl=pt-BR'
+            : null;
+    if (!url) return;
+    document.querySelectorAll('.js-download').forEach(function (a) {
+      a.href = url; a.target = '_blank'; a.rel = 'noreferrer';
+    });
+  })();
+</script>
+</body>
+</html>
